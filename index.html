@@ -218,7 +218,16 @@
         .map((t) => ({ time: t, minutes: timeToMinutes(t) }))
         .sort((a, b) => a.minutes - b.minutes); // ensure chronological order
 
-      const upcoming = todays.filter((t) => t.minutes >= nowMinutes).slice(0, 5);
+      // take unique upcoming times, max 5
+      const seen = new Set();
+      const upcoming = [];
+      for (const t of todays) {
+        if (t.minutes >= nowMinutes && !seen.has(t.minutes)) {
+          seen.add(t.minutes);
+          upcoming.push(t);
+          if (upcoming.length === 5) break;
+        }
+      }
 
       if (upcoming.length === 0) {
         const div = document.createElement('div');
