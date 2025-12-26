@@ -31,75 +31,73 @@
       padding: 24px;
     }
     .app {
-      width: min(480px, 100%);
+      width: min(520px, 100%);
       background: var(--card);
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
-      padding: 22px 22px 16px;
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.1);
+      padding: 22px 22px 18px;
       border: 1px solid var(--border);
     }
-    .header {
+    .hero {
+      background: linear-gradient(135deg, #2563eb, #9333ea);
+      color: #fff;
+      border-radius: 22px;
+      padding: 16px;
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 14px;
+      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.35);
+      margin-bottom: 16px;
     }
-    .logo {
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    .hero-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.18);
       display: grid;
       place-items: center;
-      color: #fff;
-      font-size: 26px;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+      font-size: 34px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
     }
-    h1 {
+    .hero-text h1 {
       margin: 0;
       font-size: 22px;
-      line-height: 1.2;
+      line-height: 1.25;
     }
-    .subtitle {
-      color: var(--muted);
+    .hero-text .subtitle {
+      margin: 4px 0 0;
+      color: rgba(255,255,255,0.8);
       font-size: 14px;
-      margin-top: 4px;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
     }
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #eef2ff;
-      color: #4338ca;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
       padding: 8px 12px;
       border-radius: 999px;
       font-weight: 600;
       font-size: 13px;
-      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
     }
-    .panel {
-      background: #f8fafc;
-      border: 1px dashed var(--border);
-      border-radius: 16px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-    .panel strong { display: block; }
-    .panel small { color: var(--muted); }
     .refresh-btn {
       border: none;
-      background: var(--primary);
-      color: #fff;
+      background: #fff;
+      color: #1d4ed8;
       padding: 10px 14px;
       border-radius: 12px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
-      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
     }
     .refresh-btn:hover { transform: translateY(-1px); }
     .list {
@@ -109,30 +107,31 @@
     }
     .item {
       padding: 14px;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
     }
-    .item-main { display: flex; flex-direction: column; gap: 4px; }
+    .item-main { display: flex; flex-direction: column; gap: 6px; }
     .time {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #0f172a;
     }
     .note { color: var(--muted); font-size: 13px; }
     .badge {
-      min-width: 80px;
+      min-width: 96px;
       text-align: center;
-      padding: 8px 10px;
+      padding: 10px 12px;
       border-radius: 12px;
       background: #ecfdf3;
-      color: #15803d;
-      font-weight: 700;
+      color: #166534;
+      font-weight: 800;
       box-shadow: inset 0 0 0 1px #bbf7d0;
     }
     .empty {
@@ -154,22 +153,17 @@
 </head>
 <body>
   <div class="app">
-    <div class="header">
-      <div class="logo">🚌</div>
-      <div>
+    <div class="hero">
+      <div class="hero-icon">🚌</div>
+      <div class="hero-text">
         <h1>62 Otobüs Saatleri</h1>
         <div class="subtitle">Kağıthane → Kabataş</div>
+        <div class="hero-meta">
+          <span class="pill" id="day-label">Yükleniyor…</span>
+          <span class="pill" id="now-label">Şu an:</span>
+          <button class="refresh-btn" id="refresh-btn">Yenile</button>
+        </div>
       </div>
-    </div>
-
-    <div class="pill" id="day-label">Yükleniyor…</div>
-
-    <div class="panel">
-      <div>
-        <strong id="now-label">Şu an:</strong>
-        <small>İstanbul saatine göre</small>
-      </div>
-      <button class="refresh-btn" id="refresh-btn">Yenile</button>
     </div>
 
     <div class="list" id="next-list"></div>
@@ -246,7 +240,7 @@
         time.textContent = `${idx + 1}. ${item.time}`;
         const note = document.createElement('div');
         note.className = 'note';
-        note.textContent = 'Kağıthane kalkışına kalan süre:';
+        note.textContent = 'Kağıthane kalkışına kalan süre';
         main.appendChild(time);
         main.appendChild(note);
 
