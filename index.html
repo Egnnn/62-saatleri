@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>62 Otobüs Saatleri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --primary: #2563eb;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #22c55e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #e0ecff 0, transparent 30%), radial-gradient(circle at 80% 0%, #ffe0f0 0, transparent 30%), var(--bg);
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .app {
+      width: min(480px, 100%);
+      background: var(--card);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      padding: 22px 22px 16px;
+      border: 1px solid var(--border);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 26px;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+    }
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eef2ff;
+      color: #4338ca;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .panel {
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .panel strong { display: block; }
+    .panel small { color: var(--muted); }
+    .refresh-btn {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+    .refresh-btn:hover { transform: translateY(-1px); }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .item {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+    .item-main { display: flex; flex-direction: column; gap: 4px; }
+    .time {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .note { color: var(--muted); font-size: 13px; }
+    .badge {
+      min-width: 80px;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #ecfdf3;
+      color: #15803d;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px #bbf7d0;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      background: #f8fafc;
+    }
+    footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    a { color: var(--primary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="logo">🚌</div>
+      <div>
+        <h1>62 Otobüs Saatleri</h1>
+        <div class="subtitle">Kağıthane → Kabataş</div>
+      </div>
+    </div>
+
+    <div class="pill" id="day-label">Yükleniyor…</div>
+
+    <div class="panel">
+      <div>
+        <strong id="now-label">Şu an:</strong>
+        <small>İstanbul saatine göre</small>
+      </div>
+      <button class="refresh-btn" id="refresh-btn">Yenile</button>
+    </div>
+
+    <div class="list" id="next-list"></div>
+
+    <footer>
+      Veriler <a href="https://iett.istanbul/RouteDetail?hkod=62&routename=%20KA%C4%9EITHANE%20%20-%20%20KABATA%C5%9E%20" target="_blank">İETT</a> kaynağından alınmıştır.
+    </footer>
+  </div>
+
+  <script>
+    const scheduleUrl = './schedule.json';
+
+    const getNowIstanbul = () => {
+      const now = new Date();
+      const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Istanbul' }));
+      return ist;
+    };
+
+    const timeToMinutes = (hhmm) => {
+      const [h, m] = hhmm.split(':').map(Number);
+      return h * 60 + m;
+    };
+
+    const formatDiff = (minutes) => {
+      if (minutes <= 0) return 'Kalkıyor';
+      if (minutes < 60) return `${minutes} dk`;
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      if (m === 0) return `${h} sa`;
+      return `${h} sa ${m} dk`;
+    };
+
+    const pickDayKey = (date) => {
+      const day = date.getDay(); // 0 pazar
+      if (day === 0) return 'sunday';
+      if (day === 6) return 'saturday';
+      return 'weekday';
+    };
+
+    const render = (data) => {
+      const now = getNowIstanbul();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      const dayKey = pickDayKey(now);
+      const listEl = document.getElementById('next-list');
+      listEl.innerHTML = '';
+
+      document.getElementById('now-label').textContent = `Şu an: ${now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}`;
+      const dayNames = { weekday: 'İş Günleri', saturday: 'Cumartesi', sunday: 'Pazar' };
+      document.getElementById('day-label').textContent = dayNames[dayKey] || 'Gün';
+
+      const todays = (data[dayKey] || []).map((t) => ({ time: t, minutes: timeToMinutes(t) }));
+      const upcoming = todays.filter((t) => t.minutes >= nowMinutes).slice(0, 5);
+
+      if (upcoming.length === 0) {
+        const div = document.createElement('div');
+        div.className = 'empty';
+        div.textContent = 'Bugün için kalan sefer görünmüyor.';
+        listEl.appendChild(div);
+        return;
+      }
+
+      upcoming.forEach((item, idx) => {
+        const diff = item.minutes - nowMinutes;
+        const card = document.createElement('div');
+        card.className = 'item';
+
+        const main = document.createElement('div');
+        main.className = 'item-main';
+        const time = document.createElement('div');
+        time.className = 'time';
+        time.textContent = `${idx + 1}. ${item.time}`;
+        const note = document.createElement('div');
+        note.className = 'note';
+        note.textContent = 'Kağıthane kalkışına kalan süre:';
+        main.appendChild(time);
+        main.appendChild(note);
+
+        const badge = document.createElement('div');
+        badge.className = 'badge';
+        badge.textContent = formatDiff(diff);
+
+        card.appendChild(main);
+        card.appendChild(badge);
+        listEl.appendChild(card);
+      });
+    };
+
+    const loadData = async () => {
+      try {
+        const res = await fetch(scheduleUrl);
+        const json = await res.json();
+        render(json);
+      } catch (err) {
+        const listEl = document.getElementById('next-list');
+        listEl.innerHTML = `<div class="empty">Veri yüklenemedi. Lütfen yenileyin.</div>`;
+        console.error(err);
+      }
+    };
+
+    document.getElementById('refresh-btn').addEventListener('click', loadData);
+    loadData();
+  </script>
+</body>
+</html>
+
